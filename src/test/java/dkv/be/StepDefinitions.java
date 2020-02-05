@@ -16,16 +16,10 @@ public class StepDefinitions {
     private JsonObject quoteRequest = new JsonObject();
     private Response quoteResponse;
 
-
     @Given("I'm a private policy holder")
     public void i_m_a_private_policy_holder() {
         quoteRequest.addProperty("title","nicolas");
         quoteRequest.addProperty("body","gg");
-    }
-
-    @Given("I've selected a dental plan")
-    public void i_ve_selected_a_dental_plan() {
-        quoteRequest.addProperty("userId",1);
     }
 
     @When("I request a quote")
@@ -33,9 +27,17 @@ public class StepDefinitions {
         quoteResponse = given().body(quoteRequest.toString()).when().post(URL);
     }
 
-    @Then("I should receive the correct quote")
-    public void i_should_receive_the_correct_quote() {
+    @Then("I should receive the quote with a total value of {int}")
+    public void i_should_receive_the_quote_with_a_total_value_of(Integer total) {
+        // Write code here that turns the phrase above into concrete actions
         quoteResponse.then().assertThat()
                 .statusCode(201);
+        System.out.println(total);
+    }
+
+    @Given("I've selected the plan {string}")
+    public void i_ve_selected_the_plan(String plan) {
+        quoteRequest.addProperty("userId",1);
+
     }
 }
